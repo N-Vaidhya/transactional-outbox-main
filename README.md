@@ -1,8 +1,6 @@
 # Transactional Outbox Pattern
 
-An example of the transactional outbox pattern. The project was implemented as part of my blog post [here](https://ioannisioannou.me/transactional-outbox-pattern/), where you 
-can find more details about the pattern and implementation.
-
+An example of the transactional outbox pattern. 
 ## Project structure
 
 The project consists of the following modules:
@@ -16,15 +14,15 @@ The project consists of the following modules:
 
 ![alt text](./.images/diagram.png)
 
-* Employee Service inserts, updates or deletes employee entities and inserts generated domain events in the outbox table in a transaction.
+* Employee Service inserts, updates, or deletes employee entities and inserts generated domain events in the outbox table in a transaction.
 * Uses Amazon SNS and Amazon SQS services to reliably forward events to multiple consumers.
 * Employee Service polls the outbox table and forwards events to an SNS FIFO topic. 
 * Events related to the same employee are ordered. Events related to different employees may be consumed out of order.
 * To maintain the order of events only one employee instance can read the database at the same time.
-* SNS/SQS FIFO ensures there is no duplicate message delivery within a five-minutes interval.
+* SNS/SQS FIFO ensures there is no duplicate message delivery within a five-minute interval.
 * Each consumer service has its own SQS FIFO.
 * SQS FIFO subscribes to the employee SNS FIFO topic. A subscription filter is used to subscribe to specific event types.
-* Consumer Service polls its own queue and consumes the domain events.
+* Consumer Service polls its queue and consumes the domain events.
 
 ## Running locally
 
@@ -51,7 +49,7 @@ We can create an employee.
 ```shell
 curl --header "Content-Type: application/json" \
   --request POST \
-  --data '{ "firstName": "Ioannis", "lastName": "Ioannou", "email": "email@example.com" }' \
+  --data '{ "firstName": "Jake", "lastName": "Smith", "email": "email@example.com" }' \
   http://localhost:8001/employee
 ```
 
